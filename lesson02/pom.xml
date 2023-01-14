@@ -11,11 +11,11 @@
   </parent>
 
   <groupId>org.sohu</groupId>
-  <artifactId>lesson01</artifactId>
-  <version>1.1.1</version>
+  <artifactId>lesson02</artifactId>
+  <version>1.1.2</version>
   <packaging>war</packaging>
 
-  <name>SpringMVC-lesson01</name>
+  <name>SpringMVC-lesson02</name>
   <url>http://www.example.com</url>
 
   <properties>
