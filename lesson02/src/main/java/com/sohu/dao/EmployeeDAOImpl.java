@@ -1,7 +1,9 @@
 package com.sohu.dao;
 
-import com.sohu.model.EmployeeVO;
+import com.sohu.bo.EmployeeBO;
+import com.sohu.po.EmployeePO;
 import org.springframework.stereotype.Repository;
+import util.BeanConvertUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,21 +11,21 @@ import java.util.List;
 @Repository
 public class EmployeeDAOImpl implements EmployeeDAO{
     @Override
-    public List<EmployeeVO> getAllEmployees() {
-        List<EmployeeVO> employees = new ArrayList<EmployeeVO>();
+    public List<EmployeeBO> getAllEmployees() {
+        List<EmployeePO> employeePOS = new ArrayList<>();
+        EmployeePO po1 = new EmployeePO();
+        po1.setId(1);
+        po1.setFirstName("Lokesh");
+        po1.setLastName("Gupta");
+        employeePOS.add(po1);
+        EmployeePO po2 = new EmployeePO();
+        po2.setId(2);
+        po2.setFirstName("Raj");
+        po2.setLastName("Kishore");
+        employeePOS.add(po2);
 
-        EmployeeVO vo1 = new EmployeeVO();
-        vo1.setId(1);
-        vo1.setFirstName("Lokesh");
-        vo1.setLastName("Gupta");
-        employees.add(vo1);
-
-        EmployeeVO vo2 = new EmployeeVO();
-        vo2.setId(2);
-        vo2.setFirstName("Raj");
-        vo2.setLastName("Kishore");
-        employees.add(vo2);
-
-        return employees;
+        // PO->BO
+        List<EmployeeBO> employeeBOS = BeanConvertUtils.convertListTo(employeePOS, EmployeeBO::new);
+        return employeeBOS;
     }
 }

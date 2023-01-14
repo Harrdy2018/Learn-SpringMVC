@@ -1,7 +1,7 @@
 package com.sohu.service;
 
+import com.sohu.bo.EmployeeBO;
 import com.sohu.dao.EmployeeDAO;
-import com.sohu.model.EmployeeVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +13,7 @@ public class EmployeeServiceImpl implements EmployeeService{
     EmployeeDAO employeeDAO;
 
     @Override
-    public List<EmployeeVO> getAllEmployees() {
+    public List<EmployeeBO> getAllEmployees() {
         return employeeDAO.getAllEmployees();
     }
 }

@@ -1,4 +1,4 @@
-package com.sohu.model;
+package com.sohu.vo;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -18,6 +18,4 @@ public class EmployeeVO implements Serializable {
     private String firstName;
 
     private String lastName;
-
-
 }
