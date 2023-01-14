@@ -1,6 +1,8 @@
 package com.sohu.controller;
 
+import com.sohu.dto.EmployeeDTO;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -20,6 +22,32 @@ public class Employee2Controller {
                                 @RequestParam(name = "email") String email){
         System.out.println(firstName);
         System.out.println(email);
+        return "success";
+    }
+
+    /**
+     * RequestBody直接以String接收前端传过来的json数据,后台收到的也是json字符串
+     *
+     * @param jsonString
+     * @return
+     */
+    @RequestMapping(value = "/test0", method = RequestMethod.POST)
+    @ResponseBody
+    public String queryEmployee(@RequestBody String jsonString){
+        System.out.println(jsonString);
+        return "success";
+    }
+
+    /**
+     * RequestBody以对象接收前端传过来的json数据,后台自动装配
+     *
+     * @param employeeDTO
+     * @return
+     */
+    @RequestMapping(value = "/test1", method = RequestMethod.POST)
+    @ResponseBody
+    public String queryEmployee(@RequestBody EmployeeDTO employeeDTO){
+        System.out.println(employeeDTO);
         return "success";
     }
 }
