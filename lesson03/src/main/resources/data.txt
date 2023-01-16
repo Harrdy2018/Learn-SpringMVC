@@ -1,0 +1,8 @@
+ResourceLoaderAware接口的使用
+
+public interface Aware {
+}
+
+public interface ResourceLoaderAware extends Aware {
+    void setResourceLoader(ResourceLoader resourceLoader);
+}
