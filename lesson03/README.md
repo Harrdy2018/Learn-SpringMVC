@@ -32,3 +32,26 @@
   ]
 }
 ```
+#### ```MessageSourceAware```
+* 使用场景:项目启动时不同环境加载不同的配置
+* 加载bean告诉文件具体位置
+```xml
+<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>messages</value>
+            </list>
+        </property>
+</bean>
+```
+* 实现MessageSourceAware接口
+---
+![img.png](picture/img.png)
+* 加载bean
+```xml
+<bean id="messageUtil" class="util.MessageConvertUtils"></bean>
+```
+* 构造请求```controller```
+---
+![img.png](picture/img1.png)
+
