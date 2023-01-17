@@ -35,4 +35,5 @@
             <value>classpath:data.txt</value>
         </property>
     </bean>
+    <bean id="appUtils" class="util.ApplicationContextUtil"></bean>
 </beans>
