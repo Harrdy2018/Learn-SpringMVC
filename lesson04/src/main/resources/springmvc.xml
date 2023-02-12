@@ -22,6 +22,7 @@
 
     <!-- 申明切面类对象 -->
     <bean id="myAspect" class="com.sohu.handle.MyAspect"/>
+    <bean id="interfaceLogAspect" class="com.sohu.handle.InterfaceLogAspect"/>
     <!-- 申明自动代理生成器 -->
     <aop:aspectj-autoproxy/>
 </beans>

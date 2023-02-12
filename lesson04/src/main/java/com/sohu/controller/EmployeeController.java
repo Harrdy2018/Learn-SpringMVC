@@ -74,4 +74,26 @@ public class EmployeeController {
         }
         return str;
     }
+
+    @RequestMapping(value = "/queryEmployee3", method = RequestMethod.GET)
+    @ResponseBody
+    public String queryEmployee3(String name,Integer age, HttpServletRequest request){
+        EmployeeVO employeeVO = new EmployeeVO();
+        employeeVO.setId(10001212);
+        employeeVO.setLastName("oppo");
+        employeeVO.setFirstName("sohu");
+
+        BaseRespBean<EmployeeVO> resp = new BaseRespBean<>();
+        resp.setRetCode(200);
+        resp.setData(employeeVO);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        String str = null;
+        try {
+            str = objectMapper.writeValueAsString(resp);
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
+        return str;
+    }
 }
