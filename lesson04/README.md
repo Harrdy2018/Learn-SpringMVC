@@ -46,5 +46,6 @@ execution(* com.xyz.service..*.*(..))
 execution(* *..service.*.*(..))
 指定切入点为: 指定所有包下的service子包下所有类(接口)中所有方法为切入点
 ```
-
-
+#### 接口日志实现
+* AOP实现 InterfaceLogAspect.java
+* 注解+AOP```https://www.jb51.net/article/259810.htm```
