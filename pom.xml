@@ -14,7 +14,6 @@
         <module>lesson02</module>
         <module>lesson03</module>
         <module>lesson04</module>
-        <module>common</module>
     </modules>
 
     <properties>
@@ -23,6 +22,16 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.8.10</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.8.9</version>
+        </dependency>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -55,6 +64,13 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
             <version>2.0.5</version>
+        </dependency>
+
+        <!-- common jar -->
+        <dependency>
+            <groupId>com.oppo</groupId>
+            <artifactId>common</artifactId>
+            <version>6.6.6</version>
         </dependency>
     </dependencies>
 
