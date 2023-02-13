@@ -23,6 +23,8 @@
     <!-- 申明切面类对象 -->
     <bean id="myAspect" class="com.sohu.handle.MyAspect"/>
     <bean id="interfaceLogAspect" class="com.sohu.handle.InterfaceLogAspect"/>
+    <bean id="aspectTestA" class="com.sohu.handle.AspectTestA"/>
+    <bean id="aspectTestB" class="com.sohu.handle.AspectTestB"/>
     <!-- 申明自动代理生成器 -->
     <aop:aspectj-autoproxy/>
 </beans>

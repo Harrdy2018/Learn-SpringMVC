@@ -44,19 +44,32 @@ public class MyAspect {
         System.out.println(res);
     }
 
+
     /**
-     * 环绕通知
+     * 环绕通知 http://localhost:8080/lesson04/v4/say1?name=oppo&age=18
+     * 先执行@Around再执行里面方法，@Before，执行目标方法返回，执行@Around返回结果，可以修改目标返回的结果
+     *
      * 方法是public
      * @param proceedingJoinPoint 必须 相当于反射中的Method
      * @return 必须要有 推荐Object
      */
-    @Around(value = "execution(* com.sohu.controller.LearnAOPController.display2(..))")
+    @Around(value = "execution(* com.sohu.controller.LearnAOPController.display1(..))")
     public Object myAround1(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         System.out.println("start execute myAround1");
+        // org.springframework.aop.aspectj.MethodInvocationProceedingJoinPoint
+        System.out.println(proceedingJoinPoint.getClass().getName());
+        System.out.println(Arrays.toString(proceedingJoinPoint.getArgs())); // 打印参数
+        System.out.println(proceedingJoinPoint.getSignature().getName()); // 打印目标方法名
         Object methodReturn = proceedingJoinPoint.proceed(); // 相当于method.invove()
         System.out.println("methodReturn: "+methodReturn);
         return "end myAround1";
     }
+    @Before(value = "execution(* com.sohu.controller.LearnAOPController.display1(..))")
+    public void myBefore1(JoinPoint joinPoint) {
+        System.out.println("start execute myBefore1.");
+    }
+
+
 
     /**
      * 可以是目标方法的监控
