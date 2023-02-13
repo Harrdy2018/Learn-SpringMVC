@@ -71,4 +71,19 @@ public class LearnAOPController {
         System.out.println("execute display5");
         return "Hello "+name;
     }
+
+    /**
+     * java异常统一解决方案
+     * http://localhost:8080/lesson04/v4/say6?name=oppo&age=18
+     *
+     * @param name
+     * @param age
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/say6", method = RequestMethod.GET)
+    public String display6(String name, Integer age){
+        System.out.println("execute display5");
+        throw new RuntimeException("runtime exception");
+    }
 }

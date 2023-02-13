@@ -25,6 +25,7 @@
     <bean id="interfaceLogAspect" class="com.sohu.handle.InterfaceLogAspect"/>
     <bean id="aspectTestA" class="com.sohu.handle.AspectTestA"/>
     <bean id="aspectTestB" class="com.sohu.handle.AspectTestB"/>
+    <bean id="exceptionHandlerAdvice" class="com.sohu.handle.ExceptionHandlerAdvice"/>
     <!-- 申明自动代理生成器 -->
     <aop:aspectj-autoproxy/>
 </beans>
