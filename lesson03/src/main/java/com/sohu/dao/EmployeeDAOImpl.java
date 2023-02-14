@@ -1,9 +1,9 @@
 package com.sohu.dao;
 
+import com.oppo.tool.BeanConvertUtils;
 import com.sohu.bo.EmployeeBO;
 import com.sohu.po.EmployeePO;
 import org.springframework.stereotype.Repository;
-import util.BeanConvertUtils;
 
 import java.util.ArrayList;
 import java.util.List;

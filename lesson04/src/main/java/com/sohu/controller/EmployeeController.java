@@ -2,18 +2,10 @@ package com.sohu.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sohu.bo.EmployeeBO;
+import com.oppo.bean.BaseRespBean;
 import com.sohu.dto.EmployeeDTO;
-import com.sohu.service.EmployeeService;
-import com.sohu.validator.EmployeeValidator;
-import com.sohu.vo.BaseRespBean;
 import com.sohu.vo.EmployeeVO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -44,7 +36,7 @@ public class EmployeeController {
         employeeVO.setFirstName("sohu");
 
         BaseRespBean<EmployeeVO> resp = new BaseRespBean<>();
-        resp.setRetCode(200);
+        resp.setCode(200);
         resp.setData(employeeVO);
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -62,7 +54,7 @@ public class EmployeeController {
     public String queryEmployee2(@RequestBody EmployeeDTO employeeDTO, HttpServletRequest request){
         System.out.println(employeeDTO);
         BaseRespBean<EmployeeVO> resp = new BaseRespBean<>();
-        resp.setRetCode(400);
+        resp.setCode(400);
         resp.setData(null);
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -84,7 +76,7 @@ public class EmployeeController {
         employeeVO.setFirstName("sohu");
 
         BaseRespBean<EmployeeVO> resp = new BaseRespBean<>();
-        resp.setRetCode(200);
+        resp.setCode(200);
         resp.setData(employeeVO);
 
         ObjectMapper objectMapper = new ObjectMapper();

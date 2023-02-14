@@ -1,7 +1,7 @@
 package com.sohu.tool;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.sohu.bean.BaseRespBean;
+import com.oppo.bean.BaseRespBean;
 import com.sohu.bean.req.QueryStudentReq;
 import com.sohu.bean.resp.QueryStudentRsp;
 import org.slf4j.Logger;
@@ -14,12 +14,12 @@ public class HttpMessageServiceUtil {
         BaseRespBean<QueryStudentRsp> resp = HttpUtil.postMessage(req.getCorpId(), "/lesson04/v4/queryEmployee2", req,
                 new TypeReference<BaseRespBean<QueryStudentRsp>>() {});
 
-        if (resp != null && resp.getRetCode() == 200) {
+        if (resp != null && resp.getCode() == 200) {
             LOGGER.debug("query info success");
             return resp.getData();
         } else {
-            LOGGER.error("query info failed {}", resp == null ? "" : resp.getRetCode());
-            throw new Exception("query info failed", new Throwable("retcode = "+resp.getRetCode()));
+            LOGGER.error("query info failed {}", resp == null ? "" : resp.getCode());
+            throw new Exception("query info failed", new Throwable("retcode = "+resp.getCode()));
         }
     }
 
@@ -27,12 +27,12 @@ public class HttpMessageServiceUtil {
         BaseRespBean<QueryStudentRsp> resp = HttpUtil.postMessage(req.getCorpId(), "/lesson04/v4/queryEmployee1", req,
                 new TypeReference<BaseRespBean<QueryStudentRsp>>() {});
 
-        if (resp != null && resp.getRetCode() == 200) {
+        if (resp != null && resp.getCode() == 200) {
             LOGGER.debug("query info success");
             return resp.getData();
         } else {
-            LOGGER.error("query info failed {}", resp == null ? "" : resp.getRetCode());
-            throw new Exception("query info failed", new Throwable("retcode = "+resp.getRetCode()));
+            LOGGER.error("query info failed {}", resp == null ? "" : resp.getCode());
+            throw new Exception("query info failed", new Throwable("retcode = "+resp.getCode()));
         }
     }
 }
