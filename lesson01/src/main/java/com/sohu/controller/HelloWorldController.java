@@ -1,5 +1,6 @@
 package com.sohu.controller;
 
+import com.sohu.vo.StudentVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -69,5 +70,21 @@ public class HelloWorldController {
         model.addAttribute("resquestUrl", "/v1/display4.do");
         model.addAttribute("msg", "Hello World");
         return "show";
+    }
+
+    /**
+     * 测试返回值类型 @ResponseBody注解将对象序列化
+     *
+     * @param session
+     * @return String
+     */
+    @ResponseBody
+    @RequestMapping(value="/display5.do", method = RequestMethod.GET)
+    public StudentVO display5(HttpSession session){
+        StudentVO studentVO = new StudentVO();
+        studentVO.setId(12);
+        studentVO.setName("ddsds");
+        studentVO.setAge(18);
+        return studentVO;
     }
 }

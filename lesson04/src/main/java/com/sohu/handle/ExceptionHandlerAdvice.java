@@ -1,9 +1,8 @@
 package com.sohu.handle;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oppo.bean.BaseRespBean;
-import com.oppo.bean.StatusCode;
+import com.oppo.bean.RetCode;
+import com.oppo.exception.BusinessException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -17,20 +16,29 @@ public class ExceptionHandlerAdvice {
     /**
      * handleException
      *
-     * @param e
-     * @return
+     * @param e e
+     * @return BaseRespBean<Object>
      */
     @ExceptionHandler(Exception.class)
-    @ResponseBody // 测试了一下，还真要加这个注解，不然返回的String总是视图的样子
-    public String handleException(Exception e) {
+    @ResponseBody
+    public BaseRespBean<Object> handleException(Exception e) {
         LOGGER.error("exception : {}", e.getClass().getName());
-        ObjectMapper objectMapper = new ObjectMapper();
-        String str = null;
-        try {
-            str = objectMapper.writeValueAsString(BaseRespBean.failure(StatusCode.PARAM_TYPE_BIND_ERROR));
-        } catch (JsonProcessingException exception) {
-            throw new RuntimeException(exception);
-        }
-        return str;
+        return new BaseRespBean<>(RetCode.SYSTEM_ERROR.getCode(), e.getMessage());
+    }
+
+    /**
+     * handleException
+     * @ResponseBody注解必须存在，不然按照视图模块出现
+     * 业务出现BusinessException异常会优先进入到此函数捕获，相当于catch
+     *
+     * @param e e
+     * @return BaseRespBean<Object>
+     */
+    @ExceptionHandler(BusinessException.class)
+    @ResponseBody
+    public BaseRespBean<Object> handleException(BusinessException e) {
+        LOGGER.error("exception : code={}, errorMessage={}", e.getCode(), e.getMessage());
+        LOGGER.info("stack={}", e.getStackTrace());
+        return new BaseRespBean<>(e.getCode(), e.getMessage());
     }
 }

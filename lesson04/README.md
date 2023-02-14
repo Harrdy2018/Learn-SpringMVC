@@ -49,3 +49,9 @@ execution(* *..service.*.*(..))
 #### 接口日志实现
 * AOP实现 InterfaceLogAspect.java
 * 注解+AOP```https://www.jb51.net/article/259810.htm```
+#### 使用```@ControllerAdvice``` 对不同的```Controller```分别捕获异常并处理
+* ```basePackages```指定一个或多个包，这些包及其子包下的所有```Controller```都被该```@ControllerAdvice```管理
+* ```basePackageClasses```是```basePackages```的一种变形，指定一个或多个```Controller```类，这些类所属的包及其子包下的所有```Controller```都被该```@ControllerAdvice```管理
+* ```assignableTypes```指定一个或多个 Controller 类，这些类被该```@ControllerAdvice```管理
+* ```annotations```指定一个或多个注解，被这些注解所标记的```Controller```会被该```@ControllerAdvice```管理
+

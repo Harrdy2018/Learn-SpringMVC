@@ -4,8 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.oppo.annotation.InterfaceLog;
 import com.oppo.bean.BaseRespBean;
-import com.oppo.bean.StatusCode;
+import com.oppo.bean.RetCode;
+import com.oppo.exception.BusinessException;
 import com.sohu.dto.EmployeeDTO;
+import com.sohu.vo.EmployeeVO;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,7 +25,7 @@ public class LearnAOPController {
         Object o = "Hello World";
         BaseRespBean<Object> resp = new BaseRespBean<>();
         resp.setData(o);
-        resp.setStatusCode(StatusCode.SUCCESS);
+        resp.setCode(RetCode.SUCCESS.getCode());
 
         ObjectMapper objectMapper = new ObjectMapper();
         String str = null;
@@ -74,16 +76,20 @@ public class LearnAOPController {
 
     /**
      * java异常统一解决方案
-     * http://localhost:8080/lesson04/v4/say6?name=oppo&age=18
+     * http://localhost:8080/lesson04/v4/say6?id=12&firstName=abc
      *
-     * @param name
-     * @param age
      * @return
      */
     @ResponseBody
     @RequestMapping(value = "/say6", method = RequestMethod.GET)
-    public String display6(String name, Integer age){
-        System.out.println("execute display5");
-        throw new RuntimeException("runtime exception");
+    public BaseRespBean<EmployeeVO> display6(Integer id, String firstName){
+        EmployeeVO employeeVO = new EmployeeVO();
+        employeeVO.setId(id);
+        employeeVO.setFirstName(firstName);
+        // 模拟业务异常
+        if(id == null || id != 12) {
+            throw new BusinessException(RetCode.SYSTEM_ERROR.getCode(), "id is error");
+        }
+        return BaseRespBean.success(employeeVO);
     }
 }
