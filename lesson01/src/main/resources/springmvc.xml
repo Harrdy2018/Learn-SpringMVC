@@ -10,6 +10,7 @@
        http://www.springframework.org/schema/mvc
        https://www.springframework.org/schema/mvc/spring-mvc.xsd">
     <context:component-scan base-package="com.sohu.controller"/>
+    <context:component-scan base-package="com.sohu.handle"/>
     <mvc:annotation-driven/>
     <!--声明视图解析器-->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
