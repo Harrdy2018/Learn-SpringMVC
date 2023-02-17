@@ -1,10 +1,10 @@
 package com.sohu;
 
+import com.oppo.tool.BeanConvertUtils;
 import com.sohu.bo.EmployeeBO;
 import com.sohu.po.EmployeePO;
 import org.junit.Test;
 import org.springframework.beans.BeanUtils;
-import util.BeanConvertUtils;
 
 import java.util.ArrayList;
 import java.util.List;

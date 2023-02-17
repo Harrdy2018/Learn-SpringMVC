@@ -2,6 +2,7 @@ package com.sohu.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.oppo.tool.BeanConvertUtils;
 import com.sohu.bo.EmployeeBO;
 import com.sohu.vo.EmployeeVO;
 import com.sohu.service.EmployeeService;
@@ -10,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import util.BeanConvertUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
