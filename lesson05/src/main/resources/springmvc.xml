@@ -17,4 +17,29 @@
         <property name="prefix" value="/WEB-INF/pages/" />
         <property name="suffix" value=".jsp" />
     </bean>
+
+    <!-- 加载外部的属性配置文件 -->
+    <context:property-placeholder location="classpath:mysql.properties"/>
+
+    <!-- 申明数据源DataSource -->
+    <bean id="myDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="url"  value="${jdbc.url}"/>
+        <property name="username"  value="${jdbc.username}"/>
+        <property name="password"  value="${jdbc.password}"/>
+    </bean>
+
+    <bean id="factory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="myDataSource"/>
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="factory"/>
+        <property name="basePackage" value="com.sohu.dao"/>
+    </bean>
+
+    <bean id="buyService" class="com.sohu.service.BuyGoodsServiceImpl">
+        <property name="saleMapper" ref="saleMapper"/>
+        <property name="goodsMapper" ref="goodsMapper"/>
+    </bean>
 </beans>

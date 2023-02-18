@@ -2,11 +2,15 @@
 Learn-SpringMVC
 ## ```Windows10```MySQL免安装版配置教程
 * 解压下载的文件
+---
 ![img.png](picture/img1.png)
 * 修改环境变量
+---
 ![img.png](picture/img2.png)
 * 修改配置文件
+---
 ![img.png](picture/img3.png)
+---
 ![img.png](picture/img4.png)
 * 安装服务
 ```txt
@@ -15,13 +19,16 @@ Learn-SpringMVC
 查看服务 winpty sc query mysql
 ```
 * 执行 MySQL 初始化命令，在 MySQL 目录下生成 data 文件夹 ```mysqld --initialize --user=mysql  --console```
+---
 ![img.png](picture/img5.png)
 * 启动服务，登录数据库修改密码```alter user 'root'@'localhost' identified by 'root';```
 ```txt
 启动服务 winpty net start mysql
 启动服务 winpty sc start mysql
 ```
+---
 ![img.png](picture/img6.png)
+---
 ![img.png](picture/img7.png)
 * 登录命令
 ```txt
@@ -32,6 +39,7 @@ winpty mysql --host=localhost --user=root --password
 mysql -uroot -proot
 ```
 * 查询用户信息```select `Host`,`User`,`password_expired`,`password_last_changed`,`password_lifetime` from mysql.user;```
+---
 ![img.png](picture/img8.png)
 * 基本操作
 ```txt
