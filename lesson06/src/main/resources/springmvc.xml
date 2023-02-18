@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       https://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc
+       https://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/tx
+       http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd">
+    <context:component-scan base-package="com.sohu.controller,com.sohu.vo"/>
+    <context:component-scan base-package="com.sohu.dao;com.sohu.service"/>
+    <mvc:annotation-driven/>
+    <!--声明视图解析器-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/pages/" />
+        <property name="suffix" value=".jsp" />
+    </bean>
+
+    <!-- 加载外部的属性配置文件 -->
+    <context:property-placeholder location="classpath:mysql.properties"/>
+
+    <!-- 申明数据源DataSource -->
+    <bean id="myDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="url"  value="${jdbc.url}"/>
+        <property name="username"  value="${jdbc.username}"/>
+        <property name="password"  value="${jdbc.password}"/>
+    </bean>
+
+    <bean id="factory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="myDataSource"/>
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+    </bean>
+
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="factory"/>
+        <property name="basePackage" value="com.sohu.dao"/>
+    </bean>
+
+    <bean id="buyService" class="com.sohu.service.BuyGoodsServiceImpl">
+        <property name="saleMapper" ref="saleMapper"/>
+        <property name="goodsMapper" ref="goodsMapper"/>
+    </bean>
+
+    <!-- 声明事务的控制 -->
+    <!-- 声明事务管理器 -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="myDataSource"></property>
+    </bean>
+
+    <tx:advice id="serviceAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="buy" propagation="REQUIRED" isolation="DEFAULT" read-only="false" timeout="20"
+                       rollback-for="com.oppo.exception.BusinessException"/>
+
+            <!-- 在业务方法有命名规则后，可以对一些方法使用事务 -->
+            <tx:method name="add*" propagation="REQUIRED" isolation="DEFAULT" read-only="false" timeout="20"
+                       rollback-for="com.oppo.exception.BusinessException"/>
+            <tx:method name="delete*" propagation="REQUIRED" isolation="DEFAULT" read-only="false" timeout="20"
+                       rollback-for="com.oppo.exception.BusinessException"/>
+
+            <!-- 以上方法以外的 -->
+            <tx:method name="*" propagation="REQUIRED" isolation="DEFAULT" read-only="false" timeout="20"
+                       rollback-for="com.oppo.exception.BusinessException"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!-- 声明切入点表达式：表示哪些包中的类，类中的方法参与事务 -->
+    <aop:config>
+        <aop:pointcut id="servicePointcut" expression="execution(* *..service..*.*(..))"/>
+        <aop:advisor advice-ref="serviceAdvice" pointcut-ref="servicePointcut"/>
+    </aop:config>
+</beans>
