@@ -7,7 +7,14 @@
         insert into `sale`(`gid`, `num`) values (#{gid}, #{num})
     </insert>
 
-    <select id="queryAllSales" resultType="com.sohu.po.SalePO">
+    <!-- 定义sale表列和PO对象属性的对应关系 -->
+    <resultMap id="saleMap" type="com.sohu.po.SalePO">
+        <id column="id" property="id"/>
+        <id column="gid" property="gid"/>
+        <id column="num" property="num"/>
+    </resultMap>
+
+    <select id="queryAllSales" resultMap="saleMap">
         select * from `sale`
     </select>
 </mapper>
