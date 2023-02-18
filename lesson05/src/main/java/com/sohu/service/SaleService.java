@@ -1,9 +1,9 @@
 package com.sohu.service;
 
-import com.sohu.po.SalePO;
+import com.sohu.bo.SaleBO;
 
 import java.util.List;
 
 public interface SaleService {
-    List<SalePO> queryAllSales();
+    List<SaleBO> queryAllSales();
 }

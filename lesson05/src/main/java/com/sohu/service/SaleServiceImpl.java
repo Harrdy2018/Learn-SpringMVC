@@ -1,5 +1,7 @@
 package com.sohu.service;
 
+import com.oppo.tool.BeanConvertUtils;
+import com.sohu.bo.SaleBO;
 import com.sohu.dao.SaleMapper;
 import com.sohu.po.SalePO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +20,12 @@ public class SaleServiceImpl implements SaleService {
      */
     @Autowired
     @Qualifier(value = "saleMapper")
-    private static SaleMapper saleMapper;
+    private SaleMapper saleMapper;
 
     @Override
-    public List<SalePO> queryAllSales() {
-        return saleMapper.queryAllSales();
+    public List<SaleBO> queryAllSales() {
+        List<SalePO> salePOS = saleMapper.queryAllSales();
+        List<SaleBO> saleBOS = BeanConvertUtils.convertListTo(salePOS, SaleBO::new);
+        return saleBOS;
     }
 }

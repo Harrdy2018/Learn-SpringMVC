@@ -24,6 +24,6 @@ public class GoodsTest {
         String config = "springmvc.xml";
         ApplicationContext ctx = new ClassPathXmlApplicationContext(config);
         BuyGoodsService buyService =(BuyGoodsService) ctx.getBean("buyService");
-        buyService.buy(1001, 3);
+        buyService.buy(1001, 100);
     }
 }

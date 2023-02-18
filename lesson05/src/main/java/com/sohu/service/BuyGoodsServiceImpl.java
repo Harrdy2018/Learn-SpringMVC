@@ -7,6 +7,9 @@ import com.sohu.dao.SaleMapper;
 import com.sohu.po.GoodsPO;
 import com.sohu.po.SalePO;
 import lombok.Setter;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 public class BuyGoodsServiceImpl implements BuyGoodsService{
 
@@ -16,6 +19,12 @@ public class BuyGoodsServiceImpl implements BuyGoodsService{
     @Setter
     private GoodsMapper goodsMapper;
 
+    @Transactional(
+            propagation = Propagation.REQUIRED,
+            isolation = Isolation.DEFAULT,
+            readOnly = false,
+            timeout = 20,
+            rollbackFor = {BusinessException.class})
     @Override
     public void buy(Integer goodsId, Integer num) {
         System.out.println("start buy");
