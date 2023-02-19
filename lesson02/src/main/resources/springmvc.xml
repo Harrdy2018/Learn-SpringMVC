@@ -3,12 +3,15 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
        xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:task="http://www.springframework.org/schema/task"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd
        http://www.springframework.org/schema/context
        https://www.springframework.org/schema/context/spring-context.xsd
        http://www.springframework.org/schema/mvc
-       https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+       https://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/task
+       http://www.springframework.org/schema/task/spring-task.xsd">
     <context:component-scan base-package="com.sohu.controller,com.sohu.vo"/>
     <context:component-scan base-package="com.sohu.dao;com.sohu.service"/>
     <mvc:annotation-driven/>
@@ -17,4 +20,13 @@
         <property name="prefix" value="/WEB-INF/pages/" />
         <property name="suffix" value=".jsp" />
     </bean>
+
+    <bean id="productBO" class="com.sohu.bo.ProductBO" init-method="myInit" destroy-method="myDestroy"/>
+
+    <!-- 定时任务的使用 -->
+    <bean id="taskExample" class="com.sohu.task.TaskExample"/>
+    <task:scheduled-tasks>
+        <!-- 每10s执行一次 -->
+        <task:scheduled ref="taskExample" method="hello" cron="0/10 * *  * * ?"/>
+    </task:scheduled-tasks>
 </beans>

@@ -9,7 +9,7 @@ import org.springframework.beans.BeanUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class example {
+public class BeanUtilExample {
     @Test
     public void test1(){
         // PO转BO 浅拷贝
