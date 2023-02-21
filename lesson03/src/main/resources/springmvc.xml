@@ -35,5 +35,7 @@
             <value>classpath:data.txt</value>
         </property>
     </bean>
-    <bean id="appUtils" class="util.ApplicationContextUtil"></bean>
+
+    <!-- 配置文件需要加载这个bean,不然ApplicationContextAware无法找到其实现类 -->
+    <bean id="applicationContextUtil" class="com.oppo.tool.ApplicationContextUtil"></bean>
 </beans>
