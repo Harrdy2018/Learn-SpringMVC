@@ -32,6 +32,11 @@
     <listener-class>com.sohu.listener.MyServletRequestListener</listener-class>
   </listener>
 
+  <!-- HttpSessionListener -->
+  <listener>
+    <listener-class>com.sohu.listener.MyHttpSessionListener</listener-class>
+  </listener>
+
 
   <!--配置SpringMVC的前端控制器 ,对浏览器发送的请求统一进行处理-->
   <servlet>
