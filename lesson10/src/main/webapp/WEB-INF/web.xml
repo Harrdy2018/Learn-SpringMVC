@@ -17,36 +17,6 @@
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
 
-  <!-- 注册ServletContextListener -->
-<!--  <listener>-->
-<!--    <listener-class>com.sohu.listener.MyServletContextListener</listener-class>-->
-<!--  </listener>-->
-
-  <!-- ServletContextAttributeListener -->
-<!--  <listener>-->
-<!--    <listener-class>com.sohu.listener.MyServletContextAttributeListener</listener-class>-->
-<!--  </listener>-->
-
-  <!-- ServletRequestListener -->
-<!--  <listener>-->
-<!--    <listener-class>com.sohu.listener.MyServletRequestListener</listener-class>-->
-<!--  </listener>-->
-
-  <!-- HttpSessionListener -->
-<!--  <listener>-->
-<!--    <listener-class>com.sohu.listener.MyHttpSessionListener</listener-class>-->
-<!--  </listener>-->
-
-  <!-- 自定义Session扫描器 -->
-  <listener>
-    <listener-class>com.sohu.listener.MyScanSessionListener</listener-class>
-  </listener>
-
-  <!-- ServletRequestAttributeListener -->
-  <listener>
-    <listener-class>com.sohu.listener.MyServletRequestAttributeListener</listener-class>
-  </listener>
-
 
   <!--配置SpringMVC的前端控制器 ,对浏览器发送的请求统一进行处理-->
   <servlet>
