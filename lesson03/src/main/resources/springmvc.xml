@@ -19,9 +19,10 @@
     </bean>
 
     <bean id="employeeValidator" class="com.sohu.validator.EmployeeValidator"></bean>
-    <bean id="messageUtil" class="util.MessageConvertUtils"></bean>
 
 
+    <!-- 国际化 -->
+    <bean id="messageUtil" class="com.oppo.tool.MessageSourceAwareUtil"></bean>
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
         <property name="basenames">
             <list>
@@ -29,6 +30,8 @@
             </list>
         </property>
     </bean>
+
+
     <bean id="customResourceLoader" class="util.CustomResourceLoader"></bean>
     <bean id="customResourceLoaderByConfig" class="util.CustomResourceLoaderByConfig">
         <property name="location">
