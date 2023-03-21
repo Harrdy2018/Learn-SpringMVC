@@ -40,6 +40,7 @@ public class ExceptionHandlerAdvice {
     @ResponseBody
     public BaseRespBean<Object> handleException(BusinessException e) {
         LOGGER.info("current class Name={}.", this.getClass().getName());
+        LOGGER.error("exception : {}", e.getClass().getName());
         LOGGER.error("exception : code={}, errorMessage={}", e.getCode(), e.getMessage());
         LOGGER.info("stack={}", e.getStackTrace());
         return new BaseRespBean<>(e.getCode(), e.getMessage());
