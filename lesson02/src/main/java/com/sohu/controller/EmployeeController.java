@@ -2,6 +2,7 @@ package com.sohu.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.oppo.bean.BaseRespBean;
 import com.oppo.tool.BeanConvertUtils;
 import com.sohu.bo.EmployeeBO;
 import com.sohu.vo.EmployeeVO;
@@ -43,5 +44,15 @@ public class EmployeeController {
             e.printStackTrace();
         }
         return resJson;
+    }
+
+    @RequestMapping(value = "/back/getAllEmployees", method = RequestMethod.GET)
+    @ResponseBody
+    public BaseRespBean<List<EmployeeVO>> getAllEmployees2(HttpServletRequest request, HttpServletResponse response, HttpSession session){
+
+        List<EmployeeBO> employeeBOS = employeeService.getAllEmployees();
+        // BO->VO
+        List<EmployeeVO> employeeVOS = BeanConvertUtils.convertListTo(employeeBOS, EmployeeVO::new);
+        return BaseRespBean.success(employeeVOS);
     }
 }
