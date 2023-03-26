@@ -23,3 +23,11 @@
 
 # org.springframework.web.method.annotation.AbstractNamedValueMethodArgumentResolver.resolveArgument
 ```
+### ```Controller```里面的参数类型与解析器的对应关系
+|       参数类型       |                参数解析器                |
+|:----------------:|:-----------------------------------:|
+| @RequestHeader注解 | RequestHeaderMethodArgumentResolver |
+|  @RequestBody注解  | RequestResponseBodyMethodProcessor  |
+
+
+
