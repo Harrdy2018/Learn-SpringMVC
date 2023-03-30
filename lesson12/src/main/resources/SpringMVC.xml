@@ -47,6 +47,12 @@
     </bean>
 
 
+    <!-- BeanNameUrlHandlerMapping -->
+    <bean class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping"/>
+    <!-- http://localhost:8080/lesson12/hello.do对应处理器com.sohu.controller.HelloController类 -->
+    <bean id="/hello.do" class="com.sohu.controller.HelloController"/>
+
+
     <!--配置拦截器-->
     <mvc:interceptors>
         <bean class="com.sohu.handler.FirstInterceptor"></bean>
