@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       https://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc
+       https://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/task
+       http://www.springframework.org/schema/task/spring-task.xsd">
+
+    <context:component-scan base-package="com.sohu.vo"/>
+    <context:component-scan base-package="com.sohu.dao;com.sohu.service"/>
+    <context:component-scan base-package="com.sohu.controller"/>
+
+    <!-- 开启mvc的注解驱动 -->
+    <mvc:annotation-driven/>
+
+    <!-- 声明视图解析器 -->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <!-- 视图前缀 -->
+        <property name="prefix" value="/WEB-INF/pages/"/>
+        <!-- 视图后缀 -->
+        <property name="suffix" value=".jsp"/>
+    </bean>
+
+    <bean id="applicationContextUtil" class="com.oppo.tool.ApplicationContextUtil"></bean>
+
+
+    <!-- 嵌套依赖学习 -->
+    <bean id="people" class="com.sohu.bo.People">
+        <property name="sex" value="true"></property>
+        <property name="student" ref="student"></property>
+    </bean>
+    <bean id="student" class="com.sohu.bo.Student">
+        <property name="name" value="sohu"></property>
+        <property name="age" value="18"></property>
+        <property name="email" ref="email"></property>
+    </bean>
+    <bean id="email" class="com.sohu.bo.Email">
+        <property name="address" value="1034242@qq.com"></property>
+    </bean>
+
+
+
+    <!-- 配置视图控制器。实现访问首页 -->
+    <mvc:view-controller path="/" view-name="index"></mvc:view-controller>
+</beans>

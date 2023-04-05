@@ -47,4 +47,6 @@ public interface HandlerInterceptor {
 ![img.png](picture/img4.png)
 ---
 ![img_1.png](picture/img5.png)
+### 本地解析器的初始化流程
+![img.png](picture/img6.png)
 
