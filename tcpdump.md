@@ -34,7 +34,7 @@ tcpdump -i ens33 -n -v icmp
 # 抓取ens33网卡icmp协议，源地址是 192.168.182.128 数据报文
 tcpdump -i ens33 -n -v icmp and src 192.168.182.128
 
-# 写文件  拉取远程服务器文件->"scp(secure copy) root@192.168.182.128/home/harrdy/icmp.pcap 本地路径"
+# 写文件  拉取远程服务器文件->"scp(secure copy) root@192.168.182.128:/home/harrdy/icmp.pcap 本地路径"
 tcpdump -i ens33 -n -v icmp and src 192.168.182.128 -w icmp.pcap
 # 读文件
 tcpdump icmp -r icmp.pcap
