@@ -32,6 +32,7 @@ Password:
 echo "centos" | su - root -c /home/harrdy/development/hello.sh > /dev/null 2>&1
 ```
 ### crontab定时任务
+![crontab.png](picture/crontab.png)
 ```
 yum install crontabs 下载安装
 service crond status 查看crontab服务状态

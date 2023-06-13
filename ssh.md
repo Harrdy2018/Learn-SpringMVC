@@ -8,17 +8,29 @@
 -L 建立本地SSH隧道
 -R 建立远程SSH隧道
 
-ssh -fCNg -L 8888:远程服务器IP:22 root@远程服务器IP
+ssh -fCNg -L LocalHost:LocalPort:RemoteHost:22 root@RemoteHost
+ssh -CfNg -L hadoop103:9999:hadoop102:8085 root@hadoop102
+
 # 本地电脑敲命令建立本地SSH隧道 ssh -fCNg -L 8888:192.168.182.128:22 root@192.168.182.128
 # 本地电脑会自动起一个进程监听8888端口，当我们访问本地8888端口就好像访问远程22端口的服务一样
 # 例如: ssh -p 8888 root@127.0.0.1
+
+# hadoop102起一个tomcat 端口8085
+# hadoop103执行命令建立隧道
+# curl hadoop103:9999 在hadoop103上访问9999端口就好像访问hadoop102的8085端口一样
 ```
-* 远程SSH隧道(内网穿透)
+![img.png](picture/img11.png)
+* 远程SSH隧道(反向代理、内网穿透)
 ```shell
-ssh -fCNg -R 9999:127.0.0.1:8888 root@远程服务器IP
-# 服务器会自动起一个进程监听9999端口
-# 把远程的9999端口映射到本地的8888端口上。外界访问远程服务器的9999端口相当于访问本机的8888端口
-# 本地电脑敲命令建立远程SSH隧道 ssh -fCNg -R 9999:127.0.0.1:8888 root@192.168.182.128
+# 所谓“反向代理”就是让远端启动端口，把远端端口数据转发到本地。
+# HostA(内网主机) 将自己的 PortA 暴露给外网服务器 HostC:PortC，在 HostA(内网主机) 上运行：
+ssh -CfNg -R HostC:PortC:HostA:PortA  user@HostC
+ssh -CfNg -R hadoop103:6666:hadoop102:8085 root@hadoop103
+# 运行命令就好像登录到HostC，创建 PortC 端口监听，把该端口所有数据转发给（HostA）
+
+# 内网起一个tomcat 端口8085
+# 内网运行命令
+# 外网建立隧道 外网执行命令访问 curl 127.0.0.1:6666
 ```
 ![img.png](picture/img9.png)
 ### ssh本地实现远程日志采集
