@@ -338,3 +338,147 @@ pod "httpd22-94cb4cddd-h5jnt" deleted
 NAME                      READY   STATUS    RESTARTS   AGE   IP           NODE      NOMINATED NODE   READINESS GATES
 httpd22-94cb4cddd-sdk8n   1/1     Running   0          25s   10.244.1.4   k8snode   <none>           <none>
 ```
+### k8s资源
+```shell
+# 查看所有资源
+kubectl api-resources
+
+## 创建资源
+kubectl create -f <filename>  # 通过文件创建资源  如果同名的对象已经存在则会创建失败
+kubectl apply -f <filename>  # 通过文件创建资源 用于对已有的资源对象进行更新或创建
+kubectl create deployment <name> --image=<image>  # 创建 deployment
+kubectl create service <name> --tcp=<port>:<targetPort>  # 创建 service
+
+## 获取资源
+kubectl get <resource>  # 获取资源列表
+kubectl describe <resource> <name>  # 查看资源详细信息
+kubectl logs <pod> -n <namespace> -c <container> # 打印容器在pod里面的日志
+
+## 编辑资源
+kubectl edit <resource> <name>  # 编辑资源配置
+kubectl apply -f <filename>  # 应用更新后的配置文件
+kubectl scale <resource> <name> --replicas=<num>  # 扩容或缩容 deployment
+
+## 删除资源
+kubectl delete <resource> <name>  # 删除资源
+kubectl delete pod --all  # 删除所有 pod
+kubectl delete service --all  # 删除所有 service
+
+## 其他命令
+kubectl exec -it <pod> -- /bin/bash  # 进入 pod 的 bash 环境
+kubectl port-forward <pod> <localPort>:<podPort>  # 将本地端口映射到 pod 端口
+kubectl rollout history <resource> <name>  # 查看 deployment 更新历史
+kubectl get nodes -o wide  # 查看 node 的详细信息
+
+## Kubernetes 资源管理方式 Kubernetes 提供两种资源管理方式
+## 命令式管理:命令式管理是通过 kubectl 等工具向 Kubernetes API Server 发送命令来管理资源，操作方式类似于传统的命令行管理操作系统。
+## 声明式管理:声明式管理则是通过 YAML 或 JSON 文件来定义资源的状态，再通过 kubectl apply 等命令将定义好的文件应用到 Kubernetes 集群中。这种方式不仅可以更好地实现版本控制，还可以避免手动操作带来的人为错误。
+## 命令式创建deployment
+kubectl create deployment nginxdeploytest --image=nginx:latest --replicas=2
+## 上面命令会创建一个nginxdeploytest的deployment 还有两个pod
+[root@k8smaster home]# kubectl get deployments -o wide
+NAME              READY   UP-TO-DATE   AVAILABLE   AGE     CONTAINERS   IMAGES         SELECTOR
+nginxdeploytest   2/2     2            2           51s     nginx        nginx:latest   app=nginxdeploytest
+[root@k8smaster home]# kubectl get pods -o wide
+NAME                               READY   STATUS    RESTARTS   AGE     IP            NODE      NOMINATED NODE   READINESS GATES
+nginxdeploytest-5d6875fffb-4v25z   1/1     Running   0          40s     10.244.1.12   k8snode   <none>           <none>
+nginxdeploytest-5d6875fffb-rbm48   1/1     Running   0          40s     10.244.1.11   k8snode   <none>           <none>
+
+## 命令式创建pod
+kubectl run nginxpodtest22 --image=nginx --port=80
+
+## 声明式创建 Deployment 对象  执行 kubectl apply/create -f 配置文件名称.yaml
+## 如果报错没有命令空间，需要先创建 [root@k8smaster home]# kubectl create namespace my-default
+apiVersion: apps/v1 # API 版本
+kind: Deployment # 资源类型
+metadata: #元数据，包含资源名称等信息。
+  name: nginx-deployment-name #部署的名称
+  namespace: my-default
+  labels:
+    app: nginx-test-dep
+spec: # 部署的规格
+  replicas: 3 #副本数，这里为 3
+  selector: #标签选择器，选择具有 app=nginxSelectorName 标签的 Pod
+    matchLabels:
+      app: nginx-label-name
+  template: #Pod 模板，定义了创建 Pod 的模板
+    metadata: #元数据，包含 Pod 标签等信息
+      labels: #Pod 的标签，这里为 app=nginxLabelName
+        app: nginx-label-name
+    spec: #Pod 规格。
+      containers: #容器列表，这里只有一个容器。
+      - name: nginx-container-name-a #容器的名称，这里为 nginxContainerNameA
+        image: nginx:latest # 容器所使用的镜像，这里使用 nginx:latest
+      - name: nginx-container-name-b #容器的名称，这里为 nginxContainerNameB
+        image: nginx:latest # 容器所使用的镜像，这里使用 nginx:latest
+## 创建之后效果
+[root@k8smaster home]# kubectl get deployments -o wide -n my-default
+NAME                    READY   UP-TO-DATE   AVAILABLE   AGE     CONTAINERS                                      IMAGES                      SELECTOR
+nginx-deployment-name   0/3     3            0           9m21s   nginx-container-name-a,nginx-container-name-b   nginx:latest,nginx:latest   app=nginx-label-name
+[root@k8smaster home]# kubectl get pods -o wide -n my-default
+NAME                                     READY   STATUS             RESTARTS   AGE     IP            NODE      NOMINATED NODE   READINESS GATES
+nginx-deployment-name-5787f4796c-284zc   1/2     CrashLoopBackOff   6          9m29s   10.244.1.18   k8snode   <none>           <none>
+nginx-deployment-name-5787f4796c-78twb   1/2     CrashLoopBackOff   6          9m29s   10.244.1.17   k8snode   <none>           <none>
+nginx-deployment-name-5787f4796c-zh7c5   1/2     CrashLoopBackOff   6          9m29s   10.244.1.19   k8snode   <none>           <none>
+```
+### RS(ReplicaSet 复制品集合) 
+```txt
+用来确保容器应用的副本数始终保持在用户定义的副本数。即如果有容器异常退出，会自动创建新的Pod来替代；而如果异常多出来的容器也会自动回收Kubernetes
+# 解释资源文档 包含了各个参数的解析 版本？
+[root@k8smaster home]# kubectl explain ReplicaSet
+[root@k8smaster home]# kubectl explain Namespace
+```
+* test-rs.yaml
+```yaml
+apiVersion: v1
+kind: Namespace # 创建一个命名空间资源
+metadata: 
+  name: myns
+---
+apiVersion: apps/v1
+kind: ReplicaSet # 创建一个ReplicaSet资源
+metadata:
+  name: frontend
+  namespace: myns # 指定命名空间
+spec:
+  replicas: 3    #有三个模板
+  selector:       #标签选择器
+    matchLabels:
+      tier: frontend
+  template:     #模板
+    metadata:
+      labels:
+        tier: frontend
+    spec:
+      containers:
+       - name: myapp
+         image: nginx:latest
+         env: 
+         - name: GET_HOSTS_FROM
+           value: dns
+         ports:
+         - containerPort: 80
+```
+* 应用结果
+```shell
+[root@k8smaster home]# kubectl get ReplicaSets -o wide -n myns --show-labels
+NAME       DESIRED   CURRENT   READY   AGE   CONTAINERS   IMAGES         SELECTOR        LABELS
+frontend   3         3         3       57s   myapp        nginx:latest   tier=frontend   <none>
+[root@k8smaster home]# kubectl get pods -o wide -n myns --show-labels
+NAME             READY   STATUS    RESTARTS   AGE   IP            NODE      NOMINATED NODE   READINESS GATES   LABELS
+frontend-79spj   1/1     Running   0          58s   10.244.1.28   k8snode   <none>           <none>            tier=frontend
+frontend-8fn6q   1/1     Running   0          58s   10.244.1.26   k8snode   <none>           <none>            tier=frontend
+frontend-c4fgk   1/1     Running   0          58s   10.244.1.27   k8snode   <none>           <none>            tier=frontend
+
+## 更新pod资源labels会重建 始终维持副本三个
+[root@k8smaster home]# kubectl label --overwrite pod frontend-79spj -n myns tier=frontend1
+pod/frontend-79spj labeled
+[root@k8smaster home]# kubectl get pods -o wide -n myns --show-labels
+NAME             READY   STATUS              RESTARTS   AGE     IP            NODE      NOMINATED NODE   READINESS GATES   LABELS
+frontend-79spj   1/1     Running             0          5m45s   10.244.1.28   k8snode   <none>           <none>            tier=frontend1
+frontend-8fn6q   1/1     Running             0          5m45s   10.244.1.26   k8snode   <none>           <none>            tier=frontend
+frontend-8j24q   0/1     ContainerCreating   0          4s      <none>        k8snode   <none>           <none>            tier=frontend
+frontend-c4fgk   1/1     Running             0          5m45s   10.244.1.27   k8snode   <none>           <none>            tier=frontend
+```
+
+
