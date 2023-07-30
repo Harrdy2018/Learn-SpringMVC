@@ -16,6 +16,14 @@
     <context:component-scan base-package="com.sohu.controller"/>
     <context:component-scan base-package="com.sohu.service"/>
 
+    <!--
+    如果类名一样，但是包路径不一样，使用注解加载bean的时候会引起冲突，如果这个bean只作启动使用，独立不被其他人用，最好使用value属性进行标记
+    -->
+    <context:component-scan base-package="com.sohu.modelback01;com.sohu.modelback02"/>
+
+    <!-- @Lazy注解 延迟加载bean对象；解决循环依赖问题 -->
+    <context:component-scan base-package="com.sohu.modellazy"/>
+
     <!-- 开启mvc的注解驱动 -->
     <mvc:annotation-driven/>
 

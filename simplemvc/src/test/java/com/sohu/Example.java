@@ -74,4 +74,11 @@ public class Example {
         StudentController studentController =(StudentController)applicationContext.getBean("studentController");
         System.out.println(studentController.student);
     }
+
+    // LazyClassB不会加载，只有在引用的时候才加载
+    @Test
+    public void display7(){
+        String configLocation = "springmvc.xml";
+        new ClassPathXmlApplicationContext(configLocation);
+    }
 }
