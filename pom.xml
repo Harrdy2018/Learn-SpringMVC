@@ -25,6 +25,7 @@
         <module>lesson13</module>
         <module>lesson14</module>
         <module>simplemvc</module>
+        <module>kafka01</module>
     </modules>
 
     <properties>
@@ -104,6 +105,12 @@
             <groupId>org.apache.zookeeper</groupId>
             <artifactId>zookeeper</artifactId>
             <version>3.5.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+            <version>3.0.0</version>
         </dependency>
     </dependencies>
 
