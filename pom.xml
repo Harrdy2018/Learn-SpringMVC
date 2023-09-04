@@ -26,6 +26,7 @@
         <module>lesson14</module>
         <module>simplemvc</module>
         <module>kafka01</module>
+        <module>spi</module>
     </modules>
 
     <properties>
