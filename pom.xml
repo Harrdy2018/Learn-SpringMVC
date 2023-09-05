@@ -27,6 +27,7 @@
         <module>simplemvc</module>
         <module>kafka01</module>
         <module>spi</module>
+        <module>myssh</module>
     </modules>
 
     <properties>
@@ -166,6 +167,26 @@
                 <groupId>com.alibaba</groupId>
                 <artifactId>druid</artifactId>
                 <version>1.2.12</version>
+            </dependency>
+
+            <!-- sshd -->
+            <!-- https://mvnrepository.com/artifact/org.apache.sshd/sshd-core -->
+            <dependency>
+                <groupId>org.apache.sshd</groupId>
+                <artifactId>sshd-core</artifactId>
+                <version>2.9.2</version>
+            </dependency>
+            <!-- https://mvnrepository.com/artifact/org.apache.sshd/sshd-common -->
+            <dependency>
+                <groupId>org.apache.sshd</groupId>
+                <artifactId>sshd-common</artifactId>
+                <version>2.9.2</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.jcraft</groupId>
+                <artifactId>jsch</artifactId>
+                <version>0.1.55</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
