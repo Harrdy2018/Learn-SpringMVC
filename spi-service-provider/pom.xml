@@ -11,11 +11,11 @@
   </parent>
 
   <groupId>org.sohu</groupId>
-  <artifactId>spi</artifactId>
+  <artifactId>service-provider</artifactId>
   <version>1.0.0</version>
-  <packaging>war</packaging>
+  <packaging>jar</packaging>
 
-  <name>spi</name>
+  <name>service-provider</name>
   <url>http://www.example.com</url>
 
   <properties>
@@ -24,18 +24,13 @@
     <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
 
+
   <dependencies>
-    <dependency>
-      <groupId>org.sohu</groupId>
-      <artifactId>service-provider</artifactId>
-      <version>1.0.0</version>
-    </dependency>
     <dependency>
       <groupId>org.sohu</groupId>
       <artifactId>service-provider-interface</artifactId>
       <version>1.0.0</version>
     </dependency>
-
     <dependency>
       <groupId>org.springframework</groupId>
       <artifactId>spring-webmvc</artifactId>
@@ -45,15 +40,4 @@
       <artifactId>javax.servlet-api</artifactId>
     </dependency>
   </dependencies>
-
-  <build>
-    <resources>
-      <resource>
-        <directory>src/main/java</directory>
-      </resource>
-      <resource>
-        <directory>src/main/resources</directory>
-      </resource>
-    </resources>
-  </build>
 </project>

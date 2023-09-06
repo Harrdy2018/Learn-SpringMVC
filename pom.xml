@@ -28,6 +28,8 @@
         <module>kafka01</module>
         <module>spi</module>
         <module>myssh</module>
+        <module>spi-service-provider</module>
+        <module>spi-service-provider-interface</module>
     </modules>
 
     <properties>
