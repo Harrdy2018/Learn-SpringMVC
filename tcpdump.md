@@ -3,6 +3,9 @@
 ```txt
 Linux 安装tcpdump以CentOS为例
 https://www.jianshu.com/p/e5f67833ef2b
+
+## rpm包的形式安裝  RPM包倉庫
+http://rpmfind.net/linux/RPM/index.html
 ```
 ### tcpdump的使用
 ```shell
