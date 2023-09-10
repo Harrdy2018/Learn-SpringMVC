@@ -34,7 +34,7 @@ iptables-save > /etc/sysconfig/iptables
 # -A PREROUTING表示添加到PREROUTING规则链
 # -p tcp表示TCP协议
 # --dport表示目的端口号
-# -j DNAT表示转发到目标地址
+# -j 处理的行文 [DNAT/SNAT/ACCPET接收/DROP丢弃/REJECT拒绝]
 # --to-destination表示目标IP地址和端口号
 iptables -t nat -A PREROUTING -p tcp --dport 8000 -j DNAT --to-destination 192.168.10.102:80
 iptables -t nat --list -n -v
