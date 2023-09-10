@@ -1,4 +1,79 @@
 ### iptables
+#### 安装
+```shell
+## 解决出现Unit iptables.service could not be found错误
+yum install -y iptables ## 这个一般都会有
+yum install iptables-services
+
+## 查看状态
+systemctl status iptables
+service iptables status
+
+## 开机自启动
+systemctl enable iptables
+
+## 保存
+[root@hadoop103 tmp]# service iptables save
+iptables: Saving firewall rules to /etc/sysconfig/iptables:[  OK  ]
+## 或者保存
+iptables-save > /etc/sysconfig/iptables
+```
+#### ```iptables```端口转发实现
+```txt
+## 环境信息
+192.168.10.1 ## windows
+192.168.10.103 ## 要在这个服务器上实现端口转发
+192.168.10.102 ## 开启80 httpd服务
+
+# 示例1：将本地的8000端口转发到本机的80端口
+# 假设我们有一台服务器，IP地址为192.168.10.102，端口号为80，而我们希望将本地的8000端口转发到这个服务器的80端口。
+# http://192.168.10.102:80/ 这是可以访问的，但是我要这样访问 http://192.168.10.102:8000/
+# 在本地终端设置iptables规则，实现8000端口转发到80端口
+
+# -t nat表示规则类型是nat
+# -A PREROUTING表示添加到PREROUTING规则链
+# -p tcp表示TCP协议
+# --dport表示目的端口号
+# -j DNAT表示转发到目标地址
+# --to-destination表示目标IP地址和端口号
+iptables -t nat -A PREROUTING -p tcp --dport 8000 -j DNAT --to-destination 192.168.10.102:80
+iptables -t nat --list -n -v
+iptables -t filter --list -n -v
+iptables -t filter --delete FORWARD 1
+iptables -t filter --delete INPUT 5
+# 保存iptables规则
+iptables-save > /etc/sysconfig/iptables
+
+
+# 示例2：将本地的8000端口转发到远程机器的80端口
+# 假设我们有一台服务器，IP地址为192.168.10.102，端口号为80，而我们希望将本地的8000端口转发到这个服务器的80端口
+# 在本地终端设置iptables规则，实现8000端口转发到192.168.10.102的80端口
+iptables -t nat -A PREROUTING -p tcp --dport 8000 -j DNAT --to-destination 192.168.10.102:80
+# 为转发请求指明请求来源
+iptables -t nat -A POSTROUTING -p tcp -d 192.168.10.102 --dport 80 -j SNAT --to-source 192.168.10.103
+# 保存iptables规则
+iptables-save > /etc/sysconfig/iptables
+#############TCP通信过程##################
+# 192.168.10.1 浏览器上面输入 http://192.168.10.103:8000/
+# TCP三次握手
+192.168.10.1:49647--发送[SYN]--192.168.10.103:8000
+192.168.10.103:49647--发送[SYN]--192.168.10.102:80 ## 端口转发作用
+
+192.168.10.102:80--发送[SYN,ACK]--192.168.10.103:49647
+192.168.10.103:8000--发送[SYN,ACK]--192.168.10.1:49647
+
+192.168.10.1:49647--发送[ACK]--192.168.10.103:8000
+192.168.10.103:49647--发送[ACK]--192.168.10.102:80
+
+# 发送HTTP GET报文
+192.168.10.1:49647--发送[HTTP GET]--192.168.10.103:8000
+192.168.10.103:49647--发送[HTTP GET]--192.168.10.102:80
+
+# HTTP响应报文
+192.168.10.102:80--发送[HTTP RESP]--192.168.10.103:49647
+192.168.10.103:8000--发送[HTTP RESP]--192.168.10.1:49647
+########################################
+```
 #### 使用规则
 ![img.png](picture/img10.png)
 #### redis如果远程登录需要放行端口

@@ -8,6 +8,19 @@ https://www.jianshu.com/p/e5f67833ef2b
 http://rpmfind.net/linux/RPM/index.html
 ```
 ### tcpdump的使用
+* tcpdump指导```https://danielmiessler.com/p/tcpdump/```
+```txt
+## 报错 tcpdump: 'tcp' modifier applied to host
+GFree_Wind: 你的命令里少了一个and
+应该是这样的：
+[root@Lnx99 lb]#tcpdump tcp port 22 and host 192.168.3.155
+tcpdump: verbose output suppressed, use -v or -vv for.....
+是啊，少了个and。
+后来看了下面的英文搞清楚原因了。
+原来：
+UDP/TCP doesn't know about "hosts" - that's IP's responsibility. UDP/TCP only knows about ports.
+所以tcp不能做host的修饰符
+```
 ```shell
 # -i 表示监听接口
 tcpdump -i ens33
@@ -41,4 +54,10 @@ tcpdump -i ens33 -n -v icmp and src 192.168.182.128
 tcpdump -i ens33 -n -v icmp and src 192.168.182.128 -w icmp.pcap
 # 读文件
 tcpdump icmp -r icmp.pcap
+
+## 精确抓取一组TCP报文
+tcpdump -i ens33 -n -v tcp and '(src 192.168.10.1 and dst 192.168.10.102 and dst port 80) or (src 192.168.10.102 and dst 192.168.10.1 and src port 80)' -w tcp.pcap
+
+## 抓取80或者8000端口的tcp报文
+tcpdump -i ens33 -n -v 'tcp port (8000 or 80)' -w tcp.pcap
 ```
