@@ -76,6 +76,15 @@ iptables-save > /etc/sysconfig/iptables
 192.168.10.103:8000--发送[HTTP RESP]--192.168.10.1:49647
 ########################################
 ```
+#### iptables全局报文流向图
+![img.png](picture/iptablesA.png)
+#### iptables全局报文流向图
+```shell
+# 有一点瑕疵
+# NAT表有4链 Chain PREROUTING/Chain INPUT/Chain OUTPUT/Chain POSTROUTING
+NIC(Network Interface Card 网络接口卡、网卡)
+```
+![img.png](picture/iptablesB.png)
 #### 使用规则
 ![img.png](picture/img10.png)
 #### redis如果远程登录需要放行端口
