@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.sohu</groupId>
+    <artifactId>springmvc</artifactId>
+    <version>1.1.1</version>
+  </parent>
+
+  <groupId>org.sohu</groupId>
+  <artifactId>simple-plugin</artifactId>
+  <version>1.0.0</version>
+  <packaging>jar</packaging>
+
+  <name>simple-plugin</name>
+  <url>http://www.example.com</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>javax.servlet-api</artifactId>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <plugins>
+      <!--
+      下面配置将在Maven的package阶段执行copy-resources目标，并将src/main/resources目录中的所有文件复制到${project.build.directory}/resources目录下
+      执行mvn package命令后，将生成一个独立的资源文件包，其中包含src/main/resources目录中的所有文件。可以在${project.build.directory}/resources目录中找到这个资源文件包
+      请注意，这只是一种将资源文件单独剥离出来的方法，在实际应用中可能需要根据具体需求进行调整
+      -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>3.2.0</version>
+        <executions>
+          <execution>
+            <id>copy-resources</id>
+            <phase>package</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.build.directory}/resources</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>src/main/resources</directory>
+                  <includes>
+                    <include>**/*</include>
+                  </includes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!--
+      如果你需要知道这个工程需要哪些jar包，并获取可以使用maven-dependency-plugin插件把依赖的jar包放入一个单独的目录中
+      -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>3.3.0</version>
+        <executions>
+          <execution>
+            <id>copy-dependencies</id>
+            <phase>package</phase>
+            <goals>
+              <goal>copy-dependencies</goal>
+            </goals>
+            <configuration>
+              <type>jar</type>
+              <includeTypes>jar</includeTypes>
+              <outputDirectory>${project.build.directory}/mylib</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!--
+      maven-jar-plugin通常也是不需要显示声明配置的，因为本身就默认绑定到package生命周期上的。功能是把工程打成一个可以运行的jar（注意这个插件不会把依赖打入jar包中）
+      如果我们打包成功，直接运行 java -jar xxx.jar 基本会提示没有依赖包，这是因为并没有把依赖打进来，所以需要你的运行环境提供依赖包，而且依赖包要放在mylib这个目录下；
+      这个包是怎么知道我们运行的主类呢？通过上面的配置，jar中有META-INF/MANIFEST.MF
+      Manifest-Version: 1.0
+      Built-By: lukang
+      Class-Path: mylib/spring-webmvc-5.3.22.jar mylib/spring-aop-5.3.22.jar
+        mylib/spring-beans-5.3.22.jar mylib/spring-context-5.3.22.jar mylib/
+       spring-core-5.3.22.jar mylib/spring-jcl-5.3.22.jar mylib/spring-expre
+       ssion-5.3.22.jar mylib/spring-web-5.3.22.jar mylib/aspectjweaver-1.8.
+       10.jar mylib/aspectjrt-1.8.9.jar mylib/jackson-databind-2.9.6.jar myl
+       ib/jackson-annotations-2.9.0.jar mylib/jackson-core-2.9.6.jar mylib/h
+       ttpclient-4.5.3.jar mylib/httpcore-4.4.6.jar mylib/commons-logging-1.
+       2.jar mylib/commons-codec-1.9.jar mylib/slf4j-api-2.0.5.jar mylib/slf
+       4j-simple-2.0.5.jar mylib/common-6.6.6.jar mylib/jedis-3.3.0.jar myli
+       b/commons-pool2-2.6.2.jar mylib/redisson-3.19.0.jar mylib/netty-commo
+       n-4.1.86.Final.jar mylib/netty-codec-4.1.86.Final.jar mylib/netty-buf
+       fer-4.1.86.Final.jar mylib/netty-transport-4.1.86.Final.jar mylib/net
+       ty-resolver-4.1.86.Final.jar mylib/netty-resolver-dns-4.1.86.Final.ja
+       r mylib/netty-codec-dns-4.1.86.Final.jar mylib/netty-handler-4.1.86.F
+       inal.jar mylib/netty-transport-native-unix-common-4.1.86.Final.jar my
+       lib/cache-api-1.1.1.jar mylib/reactor-core-3.4.24.jar mylib/reactive-
+       streams-1.0.4.jar mylib/rxjava-3.1.5.jar mylib/jboss-marshalling-2.0.
+       11.Final.jar mylib/jboss-marshalling-river-2.0.11.Final.jar mylib/kry
+       o-5.3.0.jar mylib/reflectasm-1.11.9.jar mylib/objenesis-3.2.jar mylib
+       /minlog-1.3.1.jar mylib/jackson-dataformat-yaml-2.14.1.jar mylib/byte
+       -buddy-1.12.18.jar mylib/snakeyaml-1.33.jar mylib/jodd-bean-5.1.6.jar
+        mylib/jodd-core-5.1.6.jar mylib/lettuce-core-5.3.1.RELEASE.jar mylib
+       /zookeeper-3.5.7.jar mylib/zookeeper-jute-3.5.7.jar mylib/audience-an
+       notations-0.5.0.jar mylib/netty-transport-native-epoll-4.1.45.Final.j
+       ar mylib/slf4j-log4j12-1.7.25.jar mylib/log4j-1.2.17.jar mylib/kafka-
+       clients-3.0.0.jar mylib/zstd-jni-1.5.0-2.jar mylib/lz4-java-1.7.1.jar
+        mylib/snappy-java-1.1.8.1.jar
+      Created-By: Apache Maven 3.8.3
+      Build-Jdk: 1.8.0_211
+      Main-Class: com.sohu.Main
+      通过该文件，该jar可以知道去哪里找依赖jar和主类
+      -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>3.1.0</version>
+        <configuration>
+          <archive>
+            <manifest>
+              <!-- 指定入口函数 -->
+              <mainClass>com.sohu.Main</mainClass>
+              <!-- 是否要把第三方jar放到manifest的classpath中 注意：这个配置不是说把依赖打进配置中，只是说把这个工程需要哪些依赖说明下-->
+              <addClasspath>true</addClasspath>
+              <!-- 去该目标下去找依赖的jar包 -->
+              <classpathPrefix>mylib</classpathPrefix>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

@@ -47,4 +47,8 @@ fi
 if [ -z "$INCLUDE_TEST_JARS" ]; then
   INCLUDE_TEST_JARS=false
 fi
+
+### 比较两个字符串是否相等的办法是
+### 额外加"x"原因是如果字符串为空,有可能会报错
+if [ "$test"x = "test"x ]; then
 ```

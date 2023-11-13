@@ -30,6 +30,7 @@
         <module>myssh</module>
         <module>spi-service-provider</module>
         <module>spi-service-provider-interface</module>
+        <module>plugin</module>
     </modules>
 
     <properties>
